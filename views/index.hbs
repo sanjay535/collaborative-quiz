@@ -1,0 +1,89 @@
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Quiz</title>
+    <link
+      rel='stylesheet'
+      href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css'
+    />
+    <style>
+      .label { height: 20px; margin: 10px 0px; display: flex; flex-basis: 600px;
+      flex-grow: 1; align-items: center; justify-content: space-between; }
+      .question-container { display: flex; align-items: center; } .radio-input {
+      padding: 7px; margin-right: 5px; } .question { display: flex;
+      flex-direction: column; } .progress-text { color: #000; font-weight: bold;
+      } .question-list { max-width: 600px; }
+    </style>
+  </head>
+  <body class='bg-light'>
+    <div class='container py-5'>
+      <h2 class='h2'>Realtime collaborative quiz</h2>
+      <ol class='list-group list-group-numbered question-list'>
+        {{#each questions as |question|}}
+          <li class='list-group-item d-flex align-items-start'>
+            <div class='question'>
+              <div class='ms-2 me-auto'>
+                <div class='fw-bold'>{{question.question}}</div>
+              </div>
+              <div class='question-options'>
+                <div class='form-check question-container'>
+                  <input
+                    class='form-check-input radio-input'
+                    type='radio'
+                    name={{question.id}}
+                    id='flexRadioDefault1'
+                  />
+                  <div class='label'>
+                    <div class='option'>{{question.option1.desc}}</div>
+                    <div class='progress-text'>25%</div>
+                  </div>
+                </div>
+
+                <div class='form-check question-container'>
+                  <input
+                    class='form-check-input radio-input'
+                    type='radio'
+                    name={{question.id}}
+                    id='flexRadioDefault7'
+                  />
+                  <div class='label'>
+                    <div class='option'>{{question.option2.desc}}</div>
+                    <div class='progress-text'>25%</div>
+                  </div>
+                </div>
+
+                <div class='form-check question-container'>
+                  <input
+                    class='form-check-input radio-input'
+                    type='radio'
+                    name={{question.id}}
+                    id='flexRadioDefault1'
+                  />
+                  <div class='label'>
+                    <div class='option'>{{question.option3.desc}}</div>
+                    <div class='progress-text'>25%</div>
+                  </div>
+                </div>
+
+                <div class='form-check question-container'>
+                  <input
+                    class='form-check-input radio-input'
+                    type='radio'
+                    name={{question.id}}
+                    id='flexRadioDefault7'
+                  />
+                  <div class='label'>
+                    <div class='option'>{{question.option4.desc}}</div>
+                    <div class='progress-text'>25%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        {{/each}}
+      </ol>
+    </div>
+  </body>
+</html>
