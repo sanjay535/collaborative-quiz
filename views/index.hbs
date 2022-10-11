@@ -5,7 +5,8 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <title>Quiz</title>
     <link rel='stylesheet' href='style.css' />
-    <script async defer src="script.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="../script.js"></script>
   </head>
   <body>
         <nav class="navbar">
@@ -22,9 +23,11 @@
               <div class='question-options'>
                 <div class='label-input'>
                   <input
-                    class=''
+                    id={{question.id}}1
                     type='radio'
                     name={{question.id}}
+                    onchange="handleChange1(this)"
+                    
                   />
                   <div class='label'>
                     <div class='option'>{{question.option1.desc}}</div>
@@ -34,9 +37,10 @@
 
                 <div  class='label-input'>
                   <input
-                    class=''
+                    id={{question.id}}2
                     type='radio'
                     name={{question.id}}
+                    onchange="handleChange2(this)"
                   />
                   <div class='label'>
                     <div class='option'>{{question.option2.desc}}</div>
@@ -46,9 +50,10 @@
 
                 <div class='label-input'>
                   <input
-                    class=''
+                    id={{question.id}}3
                     type='radio'
                     name={{question.id}}
+                    onchange="handleChange3(this)"
                   />
                   <div class='label'>
                     <div class='option'>{{question.option3.desc}}</div>
@@ -58,9 +63,10 @@
 
                 <div class='label-input'>
                   <input
-                    class=''
+                    id={{question.id}}4
                     type='radio'
                     name={{question.id}}
+                    onchange="handleChange4(this)"
                   />
                   <div class='label'>
                     <div class='option'>{{question.option4.desc}}</div>
@@ -75,5 +81,6 @@
         </div>
       
     </div>
+    
   </body>
 </html>

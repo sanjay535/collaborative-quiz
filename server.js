@@ -1,5 +1,8 @@
 const express = require('express');
 const Handlebars = require('hbs');
+const socketIO = require('socket.io');
+const http = require('http');
+
 const PORT = process.env.PORT || 4321;
 const app = express();
 
@@ -7,6 +10,9 @@ app.use('/', express.static(__dirname + '/public'));
 app.set('view engine', 'hbs');
 app.set('views', __dirname + '/views');
 
+// const server = http.Server(app);
+const server = http.createServer(app);
+const io = socketIO(server);
 const questions = [
   {
     question: 'Which of the following is the correct name of React.js?',
@@ -91,11 +97,23 @@ const questions = [
   },
 ];
 
-// Handlebars helper
-Handlebars.registerHelper('print_person', function () {
-  return this.firstname + ' ' + this.lastname;
+function middileware(req, res, next) {
+  req.questions = questions;
+  next();
+}
+
+io.on('connection', (socket) => {
+  console.log('connected', socket.id);
+  socket.on('answer', (data) => {
+    console.log(data);
+
+    questions[data.ques - 1].option1.vote =
+      questions[data.ques - 1].option1.vote + 1;
+    console.log(questions);
+  });
 });
 
+// Handlebars helper
 Handlebars.registerHelper('percentage', function (vote) {
   // console.log('vote=', vote);
   // console.log(totalVote);
@@ -104,9 +122,9 @@ Handlebars.registerHelper('percentage', function (vote) {
   return result;
 });
 
-app.get('/', (req, res) => {
+app.get('/', middileware, (req, res) => {
   res.render('index', {
-    questions: questions,
+    questions: req.questions,
     totalVote: 12,
   });
 });
@@ -115,6 +133,6 @@ app.get('/about', (req, res) => {
   res.render('about', { list: [1, 2, 3, 4, 5], val: 14 });
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`server started on http://localhost:${PORT}`);
 });
