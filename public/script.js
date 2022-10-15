@@ -16,7 +16,7 @@ function loadQuestions(questions) {
     temp += `
       <li>
       <div class='question'>
-        <div>
+        <div class="question-desc">
           <div>${question.question}</div>
         </div>
         <div class='question-options'>
