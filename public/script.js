@@ -1,45 +1,97 @@
-// const radioBtns = document.getElementsByName('1');
-// console.log(radioBtns.length);
-// for (let i = 0; i < radioBtns.length; i++) {
-//   radioBtns[i].disabled = true;
-// }
+$(function () {
+  $.get('/questions', async (data) => {
+    const questions = await data;
+    await loadQuestions(questions.questions);
+  });
+});
 
-const socket = io();
-console.log(socket);
-socket.emit('client', { name: 'Sanjay' });
+function percentage(vote, totalVotes) {
+  const val = totalVotes === 0 ? totalVotes : (vote * 100) / totalVotes;
+  return val.toFixed(0);
+}
 
-let ques;
-let opt;
-function handleChange1(e) {
-  console.log(e.id);
-  const option = e.id.split('');
-  ques = parseInt(option[0]);
-  opt = parseInt(option[1]);
+function loadQuestions(questions) {
+  let temp = ``;
+  for (let question of questions) {
+    temp += `
+      <li>
+      <div class='question'>
+        <div>
+          <div>${question.question}</div>
+        </div>
+        <div class='question-options'>
+          <div class='label-input'>
+            <input
+              id=${question.id}1
+              type='radio'
+              name=${question.id}
+              onchange="handleChange1(this)"
+              .disabled=${false}
+            />
+            <div class='label'>
+              <div class='option'>${question.option1.desc}</div>
+              <div id=q${question.id}1 class='progress-text'>${percentage(
+      question.option1.vote,
+      question.totalVote
+    )}%</div>
+            </div>
+          </div>
+      
+          <div  class='label-input'>
+            <input
+              id=${question.id}2
+              type='radio'
+              name=${question.id}
+              onchange="handleChange2(this)"
+            />
+             <div class='label'>
+              <div class='option'>${question.option2.desc}</div>
+              <div id=q${question.id}2  class='progress-text'>${percentage(
+      question.option2.vote,
+      question.totalVote
+    )}%</div>
+            </div>
+          </div>
+      
+          <div class='label-input'>
+            <input
+              id=${question.id}3
+              type='radio'
+              name=${question.id}
+              onchange="handleChange3(this)"
+            />
+            <div class='label'>
+              <div class='option'>${question.option3.desc}</div>
+              <div id=q${question.id}3  class='progress-text'>${percentage(
+      question.option3.vote,
+      question.totalVote
+    )}%</div>
+            </div>
+          </div>
+      
+          <div class='label-input'>
+            <input
+              id=${question.id}4
+              type='radio'
+              name=${question.id}
+              onchange="handleChange4(this)"
+            />
+            <div class='label'>
+              <div class='option'>${question.option4.desc}</div>
+              <div id=q${question.id}4  class='progress-text'>${percentage(
+      question.option4.vote,
+      question.totalVote
+    )}%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </li>
+      `;
+  }
+  $('#question-list').append(temp);
+}
 
-  socket.emit('answer', { ques: ques, opt: opt });
-  console.log('ques= ', ques, ' opt=', opt);
-}
-function handleChange2(e) {
-  console.log(e);
-  const option = e.id.split('');
-  ques = parseInt(option[0]);
-  opt = parseInt(option[1]);
-  socket.emit('answer', { ques: ques, opt: opt });
-  console.log('ques= ', ques, ' opt=', opt);
-}
-function handleChange3(e) {
-  console.log(e);
-  const option = e.id.split('');
-  ques = parseInt(option[0]);
-  opt = parseInt(option[1]);
-  socket.emit('answer', { ques: ques, opt: opt });
-  console.log('ques= ', ques, ' opt=', opt);
-}
-function handleChange4(e) {
-  console.log(e);
-  const option = e.id.split('');
-  ques = parseInt(option[0]);
-  opt = parseInt(option[1]);
-  socket.emit('answer', { ques: ques, opt: opt });
-  console.log('ques= ', ques, ' opt=', opt);
-}
+// fetch('/questions')
+//   .then((res) => res.json())
+//   .then((res) => console.log(res))
